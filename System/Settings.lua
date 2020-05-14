@@ -73,6 +73,7 @@ local defaults = {
             drawPath = true,
             drawHotspots = true,
             drawCircles = false,
+            drawMaxCircles = false,
             openClams = false,
             MountBlacklist = {},
             beHuman = true,
@@ -137,7 +138,7 @@ local function MigrateSettings()
         end
         if moveNew then
             DMW.Settings.profile.Tracker[k] = v
-            DMW.Settings.profile.Helpers[k] = nil 
+            DMW.Settings.profile.Helpers[k] = nil
             Reload = true
         end
     end

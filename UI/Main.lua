@@ -886,7 +886,7 @@ local Options = {
                         type = "toggle",
                         order = 3,
                         name = "Draw Circles",
-                        desc = "Draw Roam Circles",
+                        desc = "Draw Roam Distance Circles",
                         width = 0.7,
                         get = function()
                             return DMW.Settings.profile.Grind.drawCircles
@@ -895,14 +895,27 @@ local Options = {
                             DMW.Settings.profile.Grind.drawCircles = value
                         end
                     },
+                    drawMaxCircles = {
+                        type = "toggle",
+                        order = 4,
+                        name = "Draw Max Circles",
+                        desc = "Draw Max Roam Distance Circles",
+                        width = 1.2,
+                        get = function()
+                            return DMW.Settings.profile.Grind.drawMaxCircles
+                        end,
+                        set = function(info, value)
+                            DMW.Settings.profile.Grind.drawMaxCircles = value
+                        end
+                    },
                     drawSpacer = {
                         type = "header",
-                        order = 4,
+                        order = 5,
                         name = ""
                     },
                     openClams = {
                         type = "toggle",
-                        order = 5,
+                        order = 6,
                         name = "Open Clams",
                         desc = "Open clams and delete shit.",
                         width = 0.6,
@@ -915,12 +928,12 @@ local Options = {
                     },
                     miscSpacer = {
                         type = "header",
-                        order = 6,
+                        order = 7,
                         name = ""
                     },
                     beHuman = {
                         type = "toggle",
-                        order = 7,
+                        order = 8,
                         name = "Be Human",
                         desc = "Will strafe and jump with good conditions.",
                         width = 0.6,
@@ -933,7 +946,7 @@ local Options = {
                     },
                     useHearthstone = {
                         type = "toggle",
-                        order = 8,
+                        order = 9,
                         name = "Hearthstone",
                         desc = "Will use Hearthstone on vendor runs (IF IT CAN BE USED)",
                         width = 0.6,
@@ -946,7 +959,7 @@ local Options = {
                     },
                     ignoreWhisperers = {
                         type = "toggle",
-                        order = 9,
+                        order = 10,
                         name = "Ignore Players",
                         desc = "Will ignore players who whisper you.",
                         width = 0.7,

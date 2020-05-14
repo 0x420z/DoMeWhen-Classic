@@ -37,7 +37,7 @@ end
 function AddMountBlackList()
     local pX, pY, pZ = ObjectPosition('player')
     local Spot = {x = pX, y = pY, z = pZ}
-    
+
     for k in pairs (DMW.Settings.profile.Grind.MountBlacklist) do
         local bx, by, bz = DMW.Settings.profile.Grind.MountBlacklist[k].x, DMW.Settings.profile.Grind.MountBlacklist[k].y, DMW.Settings.profile.Grind.MountBlacklist[k].z
         local dist = GetDistanceBetweenPositions(pX, pY, pZ, bx, by, bz)
@@ -95,7 +95,7 @@ function Navigation:DrawVisuals()
     LibDraw.SetWidth(4)
     LibDraw.SetColorRaw(0, 128, 128, 100)
 
-    
+
     if NavPath and DMW.Settings.profile.Grind.drawPath then
         for i = pathIndex, #NavPath do
             if i == pathIndex then
@@ -110,13 +110,19 @@ function Navigation:DrawVisuals()
     if DMW.Settings.profile.HUD.BotMode == 1 then
         if DMW.Settings.profile.Grind.drawHotspots then
             local HotSpots = DMW.Settings.profile.Grind.HotSpots
-            LibDraw.SetColorRaw(76, 0, 153, 100)
             if #HotSpots > 0 then
                 for i = 1, #HotSpots do
                     if HotSpots[i] then
                         local x, y, z = HotSpots[i].x, HotSpots[i].y, HotSpots[i].z
+
+                        -- Draw roam distance circle
+                        LibDraw.SetColorRaw(76, 0, 153, 100)
                         LibDraw.Text("x", "GameFontNormalLarge", x, y, z)
                         if DMW.Settings.profile.Grind.drawCircles then LibDraw.GroundCircle(x, y, z, DMW.Settings.profile.Grind.RoamDistance / 2) end
+
+                        -- Draw max roam distance circle
+                        LibDraw.SetColor(76, 0, 153, 30)
+                        if DMW.Settings.profile.Grind.drawMaxCircles then LibDraw.GroundCircle(x, y, z, DMW.Settings.profile.Grind.RoamDistance*1.5 / 2) end
                     end
                 end
             end
@@ -135,7 +141,7 @@ end
 function Navigation:Movement()
     if IsMounted() and mountTries > 0 then mountTries = 0 end
     AscendStop()
-    
+
     if NavPath and not DMW.Player.Casting and not DMW.Player.Wanding and not DMW.Player.Disabled and not DMW.Player.Rooted then
         DestX = NavPath[pathIndex][1]
         DestY = NavPath[pathIndex][2]
@@ -152,7 +158,7 @@ function Navigation:Movement()
         end
 
         local pX, pY, pZ = ObjectPosition('player')
-        local Distance = sqrt((DestX - pX) ^ 2) + ((DestY - pY) ^ 2) 
+        local Distance = sqrt((DestX - pX) ^ 2) + ((DestY - pY) ^ 2)
 
         if Distance <= self:NodeDistance() then
             pathIndex = pathIndex + 1
@@ -172,7 +178,7 @@ function Navigation:Movement()
             if DestX then MoveTo(DestX, DestY, DestZ)
                 lastX = DMW.Player.PosX
                 lastY = DMW.Player.PosY
-                lastZ = DMW.Player.PosZ 
+                lastZ = DMW.Player.PosZ
             end
         end
     end
@@ -220,8 +226,8 @@ function Navigation:GrindRoam()
 
     if DMW.Settings.profile.Grind.randomizeWaypoints and self:NearHotspot(250) then
         local PX, PY, PZ = ObjectPosition('player')
-        
-        if WaypointX and WaypointY and WaypointZ then 
+
+        if WaypointX and WaypointY and WaypointZ then
             self:MoveTo(WaypointX, WaypointY, WaypointZ)
             local Distance = GetDistanceBetweenPositions(PX, PY, PZ, WaypointX, WaypointY, WaypointZ)
             if HotSpotIndex == #HotSpots and Distance < 5 then
@@ -387,7 +393,7 @@ function Navigation:GetSafetyPosition(x, y, z, distance, hdiff)
         local inWater = bX and TraceLine(bX, bY, bZ, bX, bY, bZ - 100, 0x10000) == nil
         if bX and not inWater then
             return true, bX, bY, bZ
-        end 
+        end
     end
 
     for i = 0, 180 do
@@ -404,7 +410,7 @@ function Navigation:GetSafetyPosition(x, y, z, distance, hdiff)
             end
         end
     end
- 
+
     for i = 0, 180 do
         local rx, ry, rz = GetPositionFromPosition(x, y, z, distance, i, i / 1000)
         local hasHostile = DMW.Bot.Combat:GetUnitsNear(rx, ry, rz)
