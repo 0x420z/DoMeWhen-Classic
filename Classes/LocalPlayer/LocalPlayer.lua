@@ -70,6 +70,10 @@ function LocalPlayer:Update()
     self.Moving = self:HasMovementFlag(DMW.Enums.MovementFlags.Moving)
     self.Swimming = self:HasMovementFlag(DMW.Enums.MovementFlags.Swimming)
     self.PetActive = UnitIsVisible("pet")
+    if self.Class == "HUNTER" then
+        self.PetFeeding = AuraUtil.FindAuraByName('Feed Pet Effect', 'pet')
+        self.PetHappiness, _, _ = GetPetHappiness()
+    end
     self.InGroup = IsInGroup()
     self.CombatTime = self.Combat and (DMW.Time - self.Combat) or 0
     self.CombatLeftTime = self.CombatLeft and (DMW.Time - self.CombatLeft) or 0

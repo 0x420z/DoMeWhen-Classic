@@ -1371,7 +1371,7 @@ local Options = {
                     },
                     firstAid = {
                         type = "toggle",
-                        order = 12,
+                        order = 13,
                         name = "First Aid (BETA)",
                         desc = "Use first aid when resting (best usable bandage in bag)",
                         width = 1,
@@ -1380,6 +1380,37 @@ local Options = {
                         end,
                         set = function(info, value)
                             DMW.Settings.profile.Grind.firstAid = value
+                        end
+                    },
+                    skipHeader = {
+                        type = "header",
+                        order = 14,
+                        name = ""
+                    },
+                    feedPet = {
+                        type = "toggle",
+                        order = 15,
+                        name = "Feed pet (BETA)",
+                        desc = "Feed pet with configured food when yellow or red and resting",
+                        width = 1,
+                        get = function()
+                            return DMW.Settings.profile.Grind.feedPet
+                        end,
+                        set = function(info, value)
+                            DMW.Settings.profile.Grind.feedPet = value
+                        end
+                    },
+                    feedPetFood = {
+                        type = "input",
+                        order = 16,
+                        name = "Feed pet food",
+                        desc = "What food to feed the pet?",
+                        width = "0.5",
+                        get = function()
+                            return DMW.Settings.profile.Grind.feedPetFood
+                        end,
+                        set = function(info, value)
+                            DMW.Settings.profile.Grind.feedPetFood = value
                         end
                     }
                 }

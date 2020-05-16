@@ -22,6 +22,7 @@ local PauseFlags = {
     Information = false,
     CantEat = false,
     CantDrink = false,
+    CantFeedPet = false,
     skinDelay = false
 }
 
@@ -304,12 +305,23 @@ function Grindbot:Rest()
     local Eating = DMW.Player.Eating
     local Drinking = DMW.Player.Drinking
     local Bandaging = DMW.Player.Bandaging
+    local PetFeeding = DMW.Player.PetFeeding
+    local PetHappiness = DMW.Player.PetHappiness
     local RecentlyBandaged = DMW.Player.RecentlyBandaged
 
     if DMW.Player.Moving then Navigation:StopMoving() return end
     if DMW.Player.Casting then return end
 
     CancelShapeshiftForm()
+
+    -- Feed pet first, then do other things
+    if DMW.Player.PetActive and DMW.Settings.profile.Grind.feedPet and PetHappiness < 3 and not PetFeeding and not PauseFlags.CantFeedPet then
+        if DMW.Player.Spells.FeedPet:Known() and DMW.Player.Spells.FeedPet:Cast(DMW.Player) then
+            UseItemByName(DMW.Settings.profile.Grind.feedPetFood)
+            PauseFlags.CantFeedPet = true
+            C_Timer.After(1, function() PauseFlags.CantFeedPet = false end)
+        end
+    end
 
     if DMW.Settings.profile.Grind.firstAid then
         bandage = getBestUsableBandage()

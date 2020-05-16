@@ -90,6 +90,8 @@ local defaults = {
             itemSaveList = {},
             rangeKite = false,
             firstAid = false,
+            feedPet = false,
+            feedPetFood = ''
         },
         Tracker = {
             Herbs = false,
